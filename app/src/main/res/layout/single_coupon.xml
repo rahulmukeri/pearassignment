@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="270dp"
+    android:layout_height="110dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:gravity="center"
+    android:background="@drawable/coupontag"
+    android:orientation="vertical">
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="CATEGIRY"
+    android:singleLine="true"
+    android:textStyle="bold"
+    android:textColor="@color/white"
+    android:textSize="18sp"
+    android:id="@+id/description"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CATEGIRY"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:singleLine="true"
+        android:id="@+id/subdescription"/>
+</LinearLayout>
