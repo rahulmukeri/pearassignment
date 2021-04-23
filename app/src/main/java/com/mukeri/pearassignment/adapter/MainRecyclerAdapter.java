@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,19 +48,24 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         if(allCategoryList.get(position).getLayouttype().equals("menu"))
         {
+            holder.itemRecycler.setVisibility(View.VISIBLE);
+            holder.category.setVisibility(View.VISIBLE);
             holder.couponsec.setVisibility(View.GONE);
             holder.categoryTitle.setText(allCategoryList.get(position).getCategoryTitle());
+            holder.itemcount.setText(allCategoryList.get(position).getItemcount());
 
             setCatItemRecycler(holder.itemRecycler, allCategoryList.get(position).getCategoryItemList());
             if(allCategoryList.get(position).isIscollapsed())
             {
                 holder.compress.setImageResource(R.drawable.down);
                 holder.itemRecycler.setVisibility(View.GONE);
+                holder.itemcount.setVisibility(View.VISIBLE);
             }
             else
             {
                 holder.compress.setImageResource(R.drawable.up);
                 holder.itemRecycler.setVisibility(View.VISIBLE);
+                holder.itemcount.setVisibility(View.GONE);
             }
 
             holder.compress.setOnClickListener(new View.OnClickListener() {
@@ -84,9 +90,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         }
         else
         {
+            holder.itemRecycler.setVisibility(View.GONE);
+            holder.category.setVisibility(View.GONE);
             holder.couponsec.setVisibility(View.VISIBLE);
-            holder.categoryTitle.setVisibility(View.GONE);
-            holder.compress.setVisibility(View.GONE);
             setCouponRecycler(holder.coupon_recycler, allCategoryList.get(position).getCouponModels());
         }
 
@@ -105,19 +111,23 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
 
         TextView categoryTitle;
+        TextView itemcount;
         RecyclerView itemRecycler;
         RecyclerView coupon_recycler;
         ImageView compress;
         LinearLayout couponsec;
+        RelativeLayout category;
 
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
 
             compress = itemView.findViewById(R.id.compress);
+            itemcount = itemView.findViewById(R.id.itemcount);
             categoryTitle = itemView.findViewById(R.id.cat_title);
             itemRecycler = itemView.findViewById(R.id.item_recycler);
             coupon_recycler = itemView.findViewById(R.id.coupon_recycler);
             couponsec = itemView.findViewById(R.id.couponsec);
+            category = itemView.findViewById(R.id.category);
 
         }
     }

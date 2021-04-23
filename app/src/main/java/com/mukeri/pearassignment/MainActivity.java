@@ -167,7 +167,16 @@ public class MainActivity extends AppCompatActivity implements MenuInterface, Ca
                                 menumodels.add(menumodel);
                                 menurecyclerview.setAdapter(menuAdapter);
                                 menuAdapter.notifyDataSetChanged();
-                                allCategoryList.add(new AllCategory(d.getString("Category_name"),false, categoryItemList,"menu"));
+
+                                if(categoryItemList.size()==0)
+                                {
+                                    allCategoryList.add(new AllCategory(d.getString("Category_name"),true, "menu",categoryItemList,String.valueOf(categoryItemList.size())+" items"));
+                                }
+                                else
+                                {
+                                    allCategoryList.add(new AllCategory(d.getString("Category_name"),false, "menu",categoryItemList,String.valueOf(categoryItemList.size())+" items"));
+                                }
+
                             }
                             setMainCategoryRecycler(allCategoryList);
                         }

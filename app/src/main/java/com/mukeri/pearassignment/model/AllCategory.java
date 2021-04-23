@@ -9,17 +9,27 @@ public class AllCategory {
     String layouttype;
     List<CategoryItem> categoryItemList;
     List<CouponModel> couponModels;
+    String itemcount;
 
-    public AllCategory(String categoryTitle, boolean iscollapsed, List<CategoryItem> categoryItemList,String layouttype) {
+    public AllCategory(String categoryTitle, boolean iscollapsed, String layouttype, List<CategoryItem> categoryItemList, String itemcount) {
         this.categoryTitle = categoryTitle;
         this.iscollapsed = iscollapsed;
+        this.layouttype = layouttype;
         this.categoryItemList = categoryItemList;
+        this.itemcount = itemcount;
+    }
+
+    public AllCategory(List<CouponModel> couponModels, String layouttype) {
+        this.couponModels = couponModels;
         this.layouttype = layouttype;
     }
 
-    public AllCategory(List<CouponModel> couponModels,String layouttype) {
-        this.couponModels = couponModels;
-        this.layouttype = layouttype;
+    public String getItemcount() {
+        return itemcount;
+    }
+
+    public void setItemcount(String itemcount) {
+        this.itemcount = itemcount;
     }
 
     public String getCategoryTitle() {
