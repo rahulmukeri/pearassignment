@@ -408,9 +408,6 @@ public class MainActivity extends AppCompatActivity implements MenuInterface, Ca
                 .show();
     }
 
-
-
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
