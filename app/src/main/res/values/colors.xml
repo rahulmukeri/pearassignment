@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="theme">#6BAE2A</color>
+
+
+    <color name="simpletooltip_background">@color/theme</color>
+    <color name="simpletooltip_text">@color/white</color>
+    <color name="simpletooltip_arrow">@color/theme</color>
 </resources>

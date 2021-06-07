@@ -1,10 +1,12 @@
 package com.mukeri.pearassignment.adapter;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -13,8 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.mukeri.pearassignment.Interface.CategoryInterface;
+import com.mukeri.pearassignment.Interface.ItemInterface;
 import com.mukeri.pearassignment.R;
 import com.mukeri.pearassignment.model.AllCategory;
 import com.mukeri.pearassignment.model.CategoryItem;
@@ -22,7 +24,7 @@ import com.mukeri.pearassignment.model.CouponModel;
 
 import java.util.List;
 
-public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder> {
+public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder> implements ItemInterface {
     public static  final int MENU = 0;
     public static  final int COUPON = 1;
     private Context context;
@@ -107,6 +109,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         return allCategoryList.size();
     }
 
+    @Override
+    public void onclickmenu(int position, Button button) {
+
+        categoryInterface.showtooltip(button);
+
+    }
+
     public static final class MainViewHolder extends RecyclerView.ViewHolder{
 
 
@@ -133,7 +142,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     }
 
     private void setCatItemRecycler(RecyclerView recyclerView, List<CategoryItem> categoryItemList){
-        CategoryItemRecyclerAdapter itemRecyclerAdapter = new CategoryItemRecyclerAdapter(context, categoryItemList);
+        CategoryItemRecyclerAdapter itemRecyclerAdapter = new CategoryItemRecyclerAdapter(context, categoryItemList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(itemRecyclerAdapter);
 

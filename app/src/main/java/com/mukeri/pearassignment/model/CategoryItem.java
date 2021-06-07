@@ -10,6 +10,7 @@ public class CategoryItem {
     String ACprice;
     String discount;
     Integer imageUrl;
+    boolean showtootip;
 
 
     public CategoryItem()
@@ -18,13 +19,14 @@ public class CategoryItem {
     }
 
 
-    public CategoryItem(String itemId, String itemname, String price, String ACprice, String discount, Integer imageUrl) {
+    public CategoryItem(String itemId, String itemname, String price, String ACprice, String discount, Integer imageUrl, boolean showtootip) {
         this.itemId = itemId;
         this.itemname = itemname;
         this.price = price;
         this.ACprice = ACprice;
         this.discount = discount;
         this.imageUrl = imageUrl;
+        this.showtootip = showtootip;
     }
 
     public String getItemId() {
@@ -73,5 +75,13 @@ public class CategoryItem {
 
     public void setImageUrl(Integer imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isShowtootip() {
+        return showtootip;
+    }
+
+    public void setShowtootip(boolean showtootip) {
+        this.showtootip = showtootip;
     }
 }

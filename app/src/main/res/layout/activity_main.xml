@@ -6,11 +6,15 @@
     android:layout_height="match_parent"
     android:background="#fff"
     tools:context=".MainActivity" >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:id="@+id/rootlayout"
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recycler"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,11 +26,13 @@
         android:layout_marginRight="20dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
         android:background="@drawable/menubutton"
         android:drawableLeft="@drawable/ic_baseline_menu_24"
         android:text="  Menu"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textColor="@color/white" />
+</RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

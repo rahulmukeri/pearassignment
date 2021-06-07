@@ -83,6 +83,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
                 android:textColor="@color/theme"
+                android:id="@+id/add"
                 android:background="@drawable/addbutton"
                 android:text="ADD+"/>
         </RelativeLayout>

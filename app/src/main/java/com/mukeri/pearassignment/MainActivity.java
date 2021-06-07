@@ -4,16 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,6 +50,8 @@ import com.mukeri.pearassignment.model.CardItem;
 import com.mukeri.pearassignment.model.CategoryItem;
 import com.mukeri.pearassignment.model.CouponModel;
 import com.mukeri.pearassignment.model.Menumodel;
+import com.wooplr.spotlight.SpotlightView;
+import com.wooplr.spotlight.prefs.PreferencesManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +76,14 @@ public class MainActivity extends AppCompatActivity implements MenuInterface, Ca
     MenuAdapter menuAdapter;
     List<AllCategory> allCategoryList;
    // List<CategoryItem> categoryItemList;
+   private boolean isRevealEnabled = true;
+    private SpotlightView spotLight;
+    private static final String INTRO_CARD = "fab_intro";
+    private static final String INTRO_SWITCH = "switch_intro";
+    private static final String INTRO_RESET = "reset_intro";
+    private static final String INTRO_REPEAT = "repeat_intro";
+    private static final String INTRO_CHANGE_POSITION = "change_position_intro";
+    private static final String INTRO_SEQUENCE = "sequence_intro";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,16 +107,37 @@ public class MainActivity extends AppCompatActivity implements MenuInterface, Ca
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                WindowManager.LayoutParams wlp = window.getAttributes();
-                wlp.gravity = Gravity.BOTTOM|Gravity.RIGHT;
-                wlp.y = 200;
-                wlp.x = 20;
-                dialog.show();
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//                WindowManager.LayoutParams wlp = window.getAttributes();
+//                wlp.gravity = Gravity.BOTTOM|Gravity.RIGHT;
+//                wlp.y = 200;
+//                wlp.x = 20;
+//                dialog.show();
+                showOptions(MainActivity.this);
             }
         });
 
         GetCouponlist();
+    }
+
+
+
+    private PopupWindow showOptions(Context mcon){
+        try{
+            LayoutInflater inflater = (LayoutInflater) mcon.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.popup,null);
+            PopupWindow optionspu = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            optionspu.setAnimationStyle(R.style.popup_window_animation);
+            optionspu.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+            optionspu.setFocusable(true);
+            optionspu.setOutsideTouchable(true);
+            optionspu.update(0, 0, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            optionspu.showAtLocation(layout, Gravity.BOTTOM|Gravity.RIGHT, 20, 200);
+
+            return optionspu;
+        }
+        catch (Exception e){e.printStackTrace();
+            return null;}
     }
 
 
@@ -138,9 +179,16 @@ public class MainActivity extends AppCompatActivity implements MenuInterface, Ca
                                 JSONArray items = d.getJSONArray("Items");
                                 for (int j = 0; j<items.length(); j++)
                                 {
-
                                     JSONObject item = items.getJSONObject(j);
                                     CategoryItem categoryItem= new CategoryItem();
+                                    if(i==0 && j==0)
+                                    {
+                                        categoryItem.setShowtootip(true);
+                                    }
+                                    else
+                                    {
+                                        categoryItem.setShowtootip(false);
+                                    }
                                     categoryItem.setImageUrl(R.drawable.sampledish);
                                     categoryItem.setItemname(item.getString("Name"));
                                     if(item.getInt("AcPrice")>item.getInt("Price"))
@@ -316,5 +364,60 @@ public class MainActivity extends AppCompatActivity implements MenuInterface, Ca
     public void onclickmenu(int position, boolean collapse) {
         allCategoryList.get(position).setIscollapsed(collapse);
         mainRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showtooltip(Button button) {
+        PreferencesManager mPreferencesManager = new PreferencesManager(MainActivity.this);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int screenWidth = displaymetrics.widthPixels;
+        int screenHeight = displaymetrics.heightPixels;
+        mPreferencesManager.resetAll();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showIntro(button, INTRO_CARD);
+            }
+        }, 2400);
+
+    }
+
+
+    private void showIntro(View view, String usageId) {
+        spotLight = new SpotlightView.Builder(MainActivity.this)
+                .introAnimationDuration(400)
+                .enableRevealAnimation(isRevealEnabled)
+                .performClick(true)
+                .fadeinTextDuration(400)
+                //.setTypeface(FontUtil.get(this, "RemachineScript_Personal_Use"))
+                .headingTvColor(Color.parseColor("#eb273f"))
+                .headingTvSize(32)
+                .headingTvText("Love")
+                .subHeadingTvColor(Color.parseColor("#ffffff"))
+                .subHeadingTvSize(16)
+                .subHeadingTvText("Like the picture?\nLet others know.")
+                .maskColor(Color.parseColor("#dc000000"))
+                .target(view)
+                .lineAnimDuration(400)
+                .lineAndArcColor(Color.parseColor("#eb273f"))
+                .dismissOnTouch(true)
+                .dismissOnBackPress(true)
+                .enableDismissAfterShown(true)
+                .usageId(usageId) //UNIQUE ID
+                .show();
+    }
+
+
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if(spotLight.isShown()){
+            PreferencesManager mPreferencesManager = new PreferencesManager(MainActivity.this);
+            mPreferencesManager.resetAll();
+
+        }
     }
 }
